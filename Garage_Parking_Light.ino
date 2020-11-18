@@ -11,12 +11,21 @@
  * https://youtube.com/c/typalowski
  * 
  * 
+ *  I haven't located a github repository for Ty (pjk)
+ */
  /************************** Configuration ***********************************
+ *
+ *    Modifications made to source code by 
+ *    Peter Kelly (pjk)
+ *    eeguy98@gmail.com
+ *    
+ *    Fusion 360 models for 3D printing created by Peter Kelly.
  *  
  *  Revision History
  *  Rev       Author        Changes
  *  1.00      pjk           Initial changes from Ty's original code found at 
  *                            https://create.arduino.cc/projecthub/typalowski/parking-assist-stoplight-2794d7
+ *                            View README to find major changes in my build and Ty's initial release.
  *                            
  */
 
@@ -54,7 +63,7 @@ String encdir ="";
  *                                                                >|  Anything greater than the Green gap
  *                                                                
  */
-                      // The following variables change as the encoder is turned
+                    // The following variables change as the encoder is turned
 int light1 = 18;    // Distance used to make a decision on which LED to turn on
 int light2 = 24;    //  These only change when the switch button is pressed.
 int light3 = 36;    //  These values are stored in EEPROM
@@ -131,7 +140,7 @@ const unsigned char myBitmap [] PROGMEM =
 
 void setup()
 { Serial.begin (9600);              // Set up serial port to 9600
-  pinMode(TRIGGER_PIN, OUTPUT);     // US Trigger is an output to start the signal
+  pinMode(TRIGGER_PIN, OUTPUT);     // Ultrasonic (US) Trigger is an output to start the signal
   pinMode(ECHO_PIN, INPUT);         // US Echo is an input to measure time on
   pinMode(RED_LED_ON, OUTPUT);            // Set up the LED 'turn-on' pins to output
   pinMode(YELLOW_LED_ON, OUTPUT);
@@ -168,7 +177,6 @@ void setup()
 #endif
   
 #if DEBUG
-
     Serial.print("EEPROM[0] = ");
     Serial.println(EEPROM.read(RED_DIST)); 
     Serial.print("EEPROM[1] = ");
@@ -197,6 +205,7 @@ void setup()
 #endif
 
 red_const = light1;   // How close you can get when the light turns red (in inch)
+                      // The other lights vary based on the gap set above
 
 }
 
@@ -230,7 +239,7 @@ void loop(){
   Serial.print("Distance measured:");
   Serial.println(distance);
 
-  light1 = counter + red_const;
+  light1 = counter + red_const;     // light1 ..2 and ..3 set the distance to change the active LED.
   light2 = light1 + yellow_const;
   light3 = light2 + green_const;
   distance1 = distance;
